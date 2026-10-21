@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Canciones{% endblock %}
+{% block contenido %}
+<div class="columnas">
+    <section>
+        <h2>Nueva canción</h2>
+        <form method="post">
+            <label>Título <input name="titulo" required></label>
+            <label>Artista <input name="artista" required></label>
+            <button type="submit">Crear</button>
+        </form>
+    </section>
+    <section>
+        <h2>Todas las canciones</h2>
+        {% if canciones %}
+            <ul>
+                {% for tema in canciones %}
+                    <li><a href="{{ url_for('canciones.mostrar', song_id=tema.id) }}">{{ tema.titulo }}</a> — {{ tema.artista }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay canciones todavía.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

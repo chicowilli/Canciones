@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titulo %}{{ usuario.nombre }}{% endblock %}
+{% block contenido %}
+<h2 class="grande">{{ usuario.nombre }}</h2>
+<p>{{ usuario.email }}</p>
+<div class="columnas">
+    <section>
+        <h2>Favoritos</h2>
+        {% if canciones %}
+            <table>
+                <thead><tr><th>Canción</th><th>Artista</th></tr></thead>
+                <tbody>
+                    {% for tema in canciones %}
+                        <tr>
+                            <td><a href="{{ url_for('canciones.mostrar', song_id=tema.id) }}">{{ tema.titulo }}</a></td>
+                            <td>{{ tema.artista }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Este usuario todavía no tiene favoritos.</p>
+        {% endif %}
+    </section>
+    <section>
+        <h2>Agregar favorito</h2>
+        {% if disponibles %}
+            <form method="post" action="{{ url_for('usuarios.agregar_favorito', user_id=usuario.id) }}">
+                <label>Canción
+                    <select name="cancion_id" required>
+                        {% for tema in disponibles %}
+                            <option value="{{ tema.id }}">{{ tema.titulo }} — {{ tema.artista }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="submit">Agregar</button>
+            </form>
+        {% else %}
+            <p>No hay canciones disponibles para agregar.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

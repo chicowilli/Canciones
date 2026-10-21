@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Usuarios{% endblock %}
+{% block contenido %}
+<div class="columnas">
+    <section>
+        <h2>Nuevo usuario</h2>
+        <form method="post">
+            <label>Nombre <input name="nombre" required></label>
+            <label>E-mail <input type="email" name="email" required></label>
+            <label>Contraseña <input type="password" name="password" required></label>
+            <button type="submit">Crear</button>
+        </form>
+    </section>
+    <section>
+        <h2>Todos los usuarios</h2>
+        {% if usuarios %}
+            <ul>
+                {% for persona in usuarios %}
+                    <li><a href="{{ url_for('usuarios.mostrar', user_id=persona.id) }}">{{ persona.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay usuarios todavía.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

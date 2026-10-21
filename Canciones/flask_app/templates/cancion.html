@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}{{ cancion.titulo }}{% endblock %}
+{% block contenido %}
+<h2 class="grande">{{ cancion.titulo }}</h2>
+<h3>{{ cancion.artista }}</h3>
+<div class="columnas">
+    <section>
+        <h2>En los favoritos de</h2>
+        {% if usuarios %}
+            <ul>
+                {% for persona in usuarios %}
+                    <li><a href="{{ url_for('usuarios.mostrar', user_id=persona.id) }}">{{ persona.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ningún usuario tiene esta canción en favoritos.</p>
+        {% endif %}
+    </section>
+    <section>
+        <h2>Agregar favorito</h2>
+        {% if disponibles %}
+            <form method="post" action="{{ url_for('canciones.agregar_favorito', song_id=cancion.id) }}">
+                <label>Usuario
+                    <select name="usuario_id" required>
+                        {% for persona in disponibles %}
+                            <option value="{{ persona.id }}">{{ persona.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="submit">Agregar</button>
+            </form>
+        {% else %}
+            <p>No hay usuarios disponibles para agregar.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
